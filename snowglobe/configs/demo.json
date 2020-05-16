@@ -1,0 +1,38 @@
+{
+    "image": "debian:latest",
+    "name": "demo",
+    "create": {
+        "command": [],
+        "entrypoint": "bash",
+        "envs": {
+            "KEY": "VALUE"
+        },
+        "ports": [
+            {
+                "containerPort": 5000,
+                "hostPort": 5000
+            }
+        ],
+        "volumes": [
+            {
+                "hostPath": "/PATH/ON/HOST",
+                "containerPath": "/PATH/ON/CONTAINER",
+                "mode": "rw"
+            }
+        ],
+        "options": "-it --hostname demo"
+    },
+    "start": "",
+    "execs": [
+        {
+            "name": "shell",
+            "command": "bash",
+            "options": "-it"
+        },
+        {
+            "name": "echo",
+            "command": "echo 'Hello World'",
+            "options": "-it"
+        }
+    ]
+}
