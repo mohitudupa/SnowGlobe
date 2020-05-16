@@ -5,40 +5,43 @@ import json
 
 def parse_arguments() -> argparse.Namespace:
     snowglobe = argparse.ArgumentParser(prog='snowglobe')
-    subparsers = snowglobe.add_subparsers(help='Sub commands for snowglobe', required=True)
+    subparsers = snowglobe.add_subparsers(help='Sub commands for snowglobe.', required=True)
 
-    list_parser = subparsers.add_parser('list', help='Get list configured environments')
+    list_parser = subparsers.add_parser('list', help='Get list configured environments.')
     list_parser.set_defaults(command='list')
 
-    inspect_parser = subparsers.add_parser('inspect', help='Inspect a configured environment')
+    template_parser = subparsers.add_parser('template', help='Prints out a config template.')
+    template_parser.set_defaults(command='template')
+
+    inspect_parser = subparsers.add_parser('inspect', help='Inspect a configured environment.')
     inspect_parser.set_defaults(command='inspect')
-    inspect_parser.add_argument('name', help='Name of the environment', type=str)
+    inspect_parser.add_argument('name', help='Name of the environment.', type=str)
 
-    setup_parser = subparsers.add_parser('setup', help='Setup a new environment')
+    setup_parser = subparsers.add_parser('setup', help='Setup a new environment.')
     setup_parser.set_defaults(command='setup')
-    setup_parser.add_argument('name', help='Name of the environment', type=str)
-    setup_parser.add_argument('--file', '-f', help='Path to the config file', required=True, type=str)
+    setup_parser.add_argument('name', help='Name of the environment.', type=str)
+    setup_parser.add_argument('--file', '-f', help='Path to the config file.', required=True, type=str)
 
-    remove_parser = subparsers.add_parser('remove', help='Remove an existing environment')
+    remove_parser = subparsers.add_parser('remove', help='Remove an existing environment.')
     remove_parser.set_defaults(command='remove')
-    remove_parser.add_argument('name', help='Name of the environment', type=str)
+    remove_parser.add_argument('name', help='Name of the environment.', type=str)
 
-    reset_parser = subparsers.add_parser('reset', help='Reset an existing environment')
+    reset_parser = subparsers.add_parser('reset', help='Reset an existing environment.')
     reset_parser.set_defaults(command='reset')
-    reset_parser.add_argument('name', help='Name of the environment', type=str)
+    reset_parser.add_argument('name', help='Name of the environment.', type=str)
 
-    start_parser = subparsers.add_parser('start', help='Start an existing environment')
+    start_parser = subparsers.add_parser('start', help='Start an existing environment.')
     start_parser.set_defaults(command='start')
-    start_parser.add_argument('name', help='Name of the environment', type=str)
+    start_parser.add_argument('name', help='Name of the environment.', type=str)
 
-    exec_parser = subparsers.add_parser('exec', help='Exec commands on an existing environment')
+    exec_parser = subparsers.add_parser('exec', help='Exec commands on an existing environment.')
     exec_parser.set_defaults(command='exec')
-    exec_parser.add_argument('name', help='Name of the environment', type=str)
-    exec_parser.add_argument('exec_name', help='Exec name', type=str)
+    exec_parser.add_argument('name', help='Name of the environment.', type=str)
+    exec_parser.add_argument('exec_name', help='Exec name.', type=str)
 
-    stop_parser = subparsers.add_parser('stop', help='Stop an existing environment')
+    stop_parser = subparsers.add_parser('stop', help='Stop an existing environment.')
     stop_parser.set_defaults(command='stop')
-    stop_parser.add_argument('name', help='Name of the environment', type=str)
+    stop_parser.add_argument('name', help='Name of the environment.', type=str)
 
     return snowglobe.parse_args()
 
@@ -50,6 +53,9 @@ def main():
 
         if args.command == 'list':
             snowglobe.list()
+
+        elif args.command == 'template':
+            snowglobe.template()
 
         elif args.command == 'inspect':
             snowglobe.inspect(args.name)

@@ -74,10 +74,49 @@ SCHEMA = {
 }
 
 
+TEMPLATE = {
+    'image': 'IMAGE:TAG',
+    'name': 'NAME',
+    'create': {
+        'command': [],
+        'entrypoint': 'ENTRYPOINT',
+        'envs': {
+            'KEY': 'VALUE',
+        },
+        'ports': [
+            {
+                'containerPort': 8080,
+                'hostPort': 8080,'
+            }
+        ],
+        'volumes': [
+            {
+                'hostPath': '/PATH/ON/HOST',
+                'containerPath': '/PATH/ON/CONTAINER',
+                'mode': 'rw',
+            }
+        ],
+        'options': '-it --hostname HOSTNAME',
+    },
+    'start': '',
+    'execs': [
+        {
+            'name': 'EXEC-NAME',
+            'command': 'EXEC_COMMAND',
+            'options': '-it',
+        }
+    ]
+}
+
+
 class Config:
     def __init__(self):
         self.CONFIG_PATH = path.join(path.dirname(path.abspath(__file__)), 'configs')
         self.confs = [ele.replace('.json', '') for ele in listdir(self.CONFIG_PATH)]
+
+    @staticmethod
+    def get_template() -> dict:
+        return TEMPLATE
 
     def get_config(self, conf: str) -> dict:
         if conf not in self.confs:

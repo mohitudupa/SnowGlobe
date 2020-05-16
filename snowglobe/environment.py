@@ -11,6 +11,9 @@ class Environment:
         print('Environments: ')
         print('\n'.join(self.config.confs))
 
+    def template(self) -> None:
+        print(json.dumps(self.config.get_template(), indent=4))
+
     def inspect(self, name: str) -> None:
         print(json.dumps(self.config.get_config(name), indent=4))
 
