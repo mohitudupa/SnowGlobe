@@ -1,25 +1,17 @@
 import setuptools
 
 
-with open('README.md', 'r') as f:
+with open('README.md', 'r', encoding='utf-8') as f:
     long_description_content = f.read()
-
-
-with open('LICENSE', 'r') as f:
-    license_content = f.read()
-
-
-with open('requirements.txt', 'r') as f:
-    install_requires_content = f.read().split()
 
 
 setuptools.setup(
     name="snowglobe",
-    version="0.0.1",
+    version="0.0.5",
     author="Mohit Udupa",
     author_email="mohitudupa@gmail.com",
-    description="A python package to manage docker development environments",
-    license=license_content,
+    description="A python package to manage docker development environments.",
+    license='MIT',
     long_description=long_description_content,
     long_description_content_type="text/markdown",
     url="https://github.com/mohitudupa/SnowGlobe",
@@ -34,5 +26,6 @@ setuptools.setup(
     entry_points={
         'console_scripts': ['snowglobe=snowglobe.__main__:main'],
     },
-    install_requires=install_requires_content,
+    install_requires=['Cerberus==1.3.2'],
+    platforms=['any'],
 )
