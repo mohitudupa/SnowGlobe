@@ -5,7 +5,7 @@ A python package to manage docker development environments
 ## Installation
 Prerequisite
  - Requires python version 3.6 or higher
- - Required docker CLI setup on host machine
+ - Requires docker CLI setup on host machine
 
 Installation
 ```
@@ -13,7 +13,6 @@ $ pip install snowglobe
 ```
 
 ## Usage
-Help
 > List of all commands
 
 Command:
@@ -37,8 +36,8 @@ optional arguments:
   -h, --help            show this help message and exit
 ```
 
-List existing environments
-> This command will list all existing environments setup through snowglobe
+## List existing environments
+> This command will list all existing environments setup through snowglobe.
 By default this will show the demo environment which can be used for reference. 
 
 Command:
@@ -50,33 +49,34 @@ Example
 ```
 $ snowglobe list
 Environments:
-demo
+webapp
 ```
 ---
-Inspect an environment
-> This command will print the configuration of an environment in json format
+## Get template config
+> This command will print a template with placeholder config.
 
 Command:
 ```
-$ snowglobe inspect <name>
+$ snowglobe template
 ```
 
-Example: 
+Example:
 ```
-$ snowglobe inspect demo
+$ snowglobe template > webapp.json
+$ cat webapp.json
 {
-    "image": "debian:latest",
-    "name": "demo",
+    "image": "IMAGE:TAG",
+    "name": "NAME",
     "create": {
         "command": [],
-        "entrypoint": "bash",
+        "entrypoint": "ENTRYPOINT",
         "envs": {
             "KEY": "VALUE"
         },
         "ports": [
             {
-                "containerPort": 5000,
-                "hostPort": 5000
+                "containerPort": 8080,
+                "hostPort": 8080
             }
         ],
         "volumes": [
@@ -86,36 +86,31 @@ $ snowglobe inspect demo
                 "mode": "rw"
             }
         ],
-        "options": "-it --hostname demo"
+        "options": "-it --hostname HOSTNAME"
     },
     "start": "",
     "execs": [
         {
-            "name": "shell",
-            "command": "bash",
-            "options": "-it"
-        },
-        {
-            "name": "echo",
-            "command": "echo 'Hello World'",
+            "name": "EXEC-NAME",
+            "command": "EXEC_COMMAND",
             "options": "-it"
         }
     ]
 }
 ```
 ---
-Setup an environment
+## Setup an environment
 > This command will setup a new docker environment on snowglobe
 
 Command:
 ```
-$ snowglobe setup <name> -f <config_file>
+$ snowglobe setup <environment_name> -f <config_file>
 ```
 
 Example:
-> In this example we will setup an nginx dev environment called webapp. We will use the demo config as a template to 
-create our nginx environment. Create a file webapp.json and enter the following config in it. Note that we are nit using
-any shared volumes in this example. 
+> In this example we will setup an nginx dev environment called webapp. You can use the template command to help create 
+this nginx environment. Create a file webapp.json and enter the following config in it. Note that we are not using any 
+shared volumes in this example. 
 ```
 {
     "image": "nginx:latest",
@@ -144,9 +139,9 @@ any shared volumes in this example.
         },
         {
             "name": "echo",
-            "command": "echo 'Hello World'",
+            "command": "echo Hello World",
             "options": "-it"
-        }
+        },
     ]
 }
 ```
@@ -156,13 +151,57 @@ Setting up environment: webapp
 Creating environment: webapp
 6f36c69ef2499aed0c24b3d5dbbbce05443b7e5e8eef508fa01c5764a24e9f15
 ```
+## Inspect an environment
+> This command will print the configuration of an environment in json format
+
+Command:
+```
+$ snowglobe inspect <environment_name>
+```
+
+Example: 
+```
+$ snowglobe inspect webapp
+{
+    "image": "nginx:latest",
+    "name": "webapp",
+    "create": {
+        "command": [],
+        "entrypoint": "",
+        "envs": {
+            "SERVER": "webapp"
+        },
+        "ports": [
+            {
+                "containerPort": 80,
+                "hostPort": 8080
+            }
+        ],
+        "volumes": [],
+        "options": "-it --hostname webapp"
+    },
+    "start": "",
+    "execs": [
+        {
+            "name": "shell",
+            "command": "bash",
+            "options": "-it"
+        },
+        {
+            "name": "echo",
+            "command": "echo Hello World",
+            "options": "-it"
+        },
+    ]
+}
+```
 ---
-Start Environment
+## Start an environment
 > This command will start the environment. The start options in the config will be used while starting the container.
 
 Command:
 ```
-$ snowglobe start <name>
+$ snowglobe start <environment_name>
 ```
 
 Example:
@@ -172,13 +211,13 @@ Starting environment: webapp
 webapp
 ```
 ---
-Exec a command in an environment
+## Exec a command in an environment
 > This command will execute a profile in the environment. The environment must be already started before running this 
 command. It takes in the name of the execution profile.
 
 Command:
 ```
-$ snowglobe exec <name> <exec_name>
+$ snowglobe exec <environment_name> <exec_name>
 ```
 
 Example:
@@ -192,12 +231,12 @@ Executing environment: webapp. Exec name: shell
 root@webapp:/#
 ```
 ---
-Stop an environment
+## Stop an environment
 > This command will stop a running environment.
 
 Command:
 ```
-$ snowglobe stop <name>
+$ snowglobe stop <environment_name>
 ```
 
 Example:
@@ -207,12 +246,12 @@ Stopping environment: webapp
 webapp
 ```
 ---
-Reset an environment
+## Reset an environment
 > This command will reset an existing environment. This will recreate the container.
 
 Command:
 ```
-$ snowglobe reset <name>
+$ snowglobe reset <environment_name>
 ```
 
 Example:
@@ -227,12 +266,12 @@ Creating environment: webapp
 c848f87b99c4e301d1debe05d166fa06d7b097d10524b7a74a689385c3f89adf
 ```
 ---
-Remove an environment
+## Remove an environment
 > This command will remove an environment.
 
 Command:
 ```
-$ snowglobe remove <name>
+$ snowglobe remove <environment_name>
 ```
 
 Example:
@@ -244,4 +283,3 @@ webapp
 Deleting environment: webapp
 webapp
 ```
----
