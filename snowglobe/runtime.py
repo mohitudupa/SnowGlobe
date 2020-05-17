@@ -3,11 +3,19 @@ import json
 
 
 class Runtime:
+    """
+    Runtime class. Handles docker commands.
+    """
     def __init__(self):
         pass
 
     @staticmethod
     def inspect(name: str) -> dict:
+        """
+        Runs the docker container inspect command and returns the result.
+        :param name: Name of the container.
+        :return: Inspect dictionary.
+        """
         cmd = ['docker', 'container', 'inspect', name]
         response = subprocess.run(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         containers = json.loads(response.stdout.decode())
@@ -18,6 +26,13 @@ class Runtime:
 
     @staticmethod
     def create(name: str, image: str, create: dict) -> None:
+        """
+        Runs the docker container create command.
+        :param name: Name of the docker container.
+        :param image: Name of the docker image.
+        :param create: Create options.
+        :return: None.
+        """
         cmd = ['docker', 'container', 'create']
 
         if create.get('entrypoint'):
@@ -46,11 +61,24 @@ class Runtime:
 
     @staticmethod
     def start(name: str, start: str) -> None:
+        """
+        Runs the docker container start command.
+        :param name: Name of the docker container
+        :param start: Start options.
+        :return: None.
+        """
         cmd = ['docker', 'container', 'start'] + start.split() + [name]
         subprocess.run(cmd)
 
     @staticmethod
     def exec(name: str, exec_name: str, execs: list) -> None:
+        """
+        Runs the docker container exec command.
+        :param name: Name of the docker container.
+        :param exec_name: Name of the exec profile.
+        :param execs: List of exec options.
+        :return: None.
+        """
         execs = {ele['name']: ele for ele in execs}
 
         if exec_name not in execs:
@@ -62,10 +90,20 @@ class Runtime:
 
     @staticmethod
     def stop(name: str) -> None:
+        """
+        Runs the docker container stop command.
+        :param name: Name of the docker container.
+        :return: None.
+        """
         cmd = ['docker', 'container', 'stop', name]
         subprocess.run(cmd)
 
     @staticmethod
     def remove(name: str) -> None:
+        """
+        Runs the docker container rm command.
+        :param name: Name of the docker container.
+        :return: None.
+        """
         cmd = ['docker', 'container', 'rm', name]
         subprocess.run(cmd)

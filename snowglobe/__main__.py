@@ -4,6 +4,10 @@ import json
 
 
 def parse_arguments() -> argparse.Namespace:
+    """
+    Argument parser.
+    :return: Parsed arguments.
+    """
     snowglobe = argparse.ArgumentParser(prog='snowglobe')
     subparsers = snowglobe.add_subparsers(help='Sub commands for snowglobe.', required=True)
 
@@ -47,6 +51,10 @@ def parse_arguments() -> argparse.Namespace:
 
 
 def main():
+    """
+    Main function.
+    :return: None.
+    """
     try:
         args = parse_arguments()
         snowglobe = environment.Environment()
