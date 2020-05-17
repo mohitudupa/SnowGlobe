@@ -18,19 +18,20 @@ $ pip install snowglobe
 Command:
 ```
 $ snowglobe -h
-usage: snowglobe [-h] {list,inspect,setup,remove,reset,start,exec,stop} ...
+usage: snowglobe [-h] {list,template,inspect,setup,remove,reset,start,exec,stop} ...
 
 positional arguments:
-  {list,inspect,setup,remove,reset,start,exec,stop}
-                        Sub commands for snowglobe
-    list                Get list configured environments
-    inspect             Inspect a configured environment
-    setup               Setup a new environment
-    remove              Remove an existing environment
-    reset               Reset an existing environment
-    start               Start an existing environment
-    exec                Exec commands on an existing environment
-    stop                Stop an existing environment
+  {list,template,inspect,setup,remove,reset,start,exec,stop}
+                        Sub commands for snowglobe.
+    list                Get list configured environments.
+    template            Prints out a config template.
+    inspect             Inspect a configured environment.
+    setup               Setup a new environment.
+    remove              Remove an existing environment.
+    reset               Reset an existing environment.
+    start               Start an existing environment.
+    exec                Exec commands on an existing environment.
+    stop                Stop an existing environment.
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -148,7 +149,7 @@ shared volumes in this example.
 ```
 $ snowglobe setup webapp -f webapp.json
 Setting up environment: webapp
-Creating environment: webapp
+Creating container: webapp
 6f36c69ef2499aed0c24b3d5dbbbce05443b7e5e8eef508fa01c5764a24e9f15
 ```
 ## Inspect an environment
@@ -207,7 +208,7 @@ $ snowglobe start <environment_name>
 Example:
 ```
 $ snowglobe start webapp
-Starting environment: webapp
+Starting container: webapp
 webapp
 ```
 ---
@@ -223,11 +224,11 @@ $ snowglobe exec <environment_name> <exec_name>
 Example:
 ```
 $ snowglobe exec webapp echo
-Executing environment: webapp. Exec name: echo
+Executing container: webapp. Exec name: echo
 'Hello World'
 
 $ snowglobe exec webapp shell
-Executing environment: webapp. Exec name: shell
+Executing container: webapp. Exec name: shell
 root@webapp:/#
 ```
 ---
@@ -242,7 +243,7 @@ $ snowglobe stop <environment_name>
 Example:
 ```
 $ snowglobe stop webapp
-Stopping environment: webapp
+Stopping container: webapp
 webapp
 ```
 ---
@@ -258,11 +259,11 @@ Example:
 ```
 $ snowglobe reset webapp
 Resetting environment: webapp
-Stopping environment: webapp
+Stopping container: webapp
 webapp
-Deleting environment: webapp
+Deleting container: webapp
 webapp
-Creating environment: webapp
+Creating container: webapp
 c848f87b99c4e301d1debe05d166fa06d7b097d10524b7a74a689385c3f89adf
 ```
 ---
@@ -278,8 +279,8 @@ Example:
 ```
 $ snowglobe remove webapp
 Deleting up environment: webapp
-Stopping environment: webapp
+Stopping container: webapp
 webapp
-Deleting environment: webapp
+Deleting container: webapp
 webapp
 ```
