@@ -1,11 +1,13 @@
 from snowglobe import environment
 import argparse
 import json
+import sys
 
 
-def parse_arguments() -> argparse.Namespace:
+def parse_args(args: list) -> argparse.Namespace:
     """
     Argument parser.
+    :param args: List of command line arguments
     :return: Parsed arguments.
     """
     snowglobe = argparse.ArgumentParser(prog='snowglobe')
@@ -47,7 +49,7 @@ def parse_arguments() -> argparse.Namespace:
     stop_parser.set_defaults(command='stop')
     stop_parser.add_argument('name', help='Name of the environment.', type=str)
 
-    return snowglobe.parse_args()
+    return snowglobe.parse_args(args)
 
 
 def main():
@@ -56,7 +58,7 @@ def main():
     :return: None.
     """
     try:
-        args = parse_arguments()
+        args = parse_args(sys.argv[1:])
         snowglobe = environment.Environment()
 
         if args.command == 'list':
@@ -71,9 +73,14 @@ def main():
         elif args.command == 'setup':
             try:
                 with open(args.file, 'r') as f:
-                    data = json.load(f)
+                    file_content = f.read()
             except FileNotFoundError:
                 raise RuntimeError(f'File {args.file} not found')
+
+            try:
+                data = json.loads(file_content)
+            except json.JSONDecodeError as jde:
+                raise RuntimeError(f'Invalid json format: {jde}')
 
             snowglobe.setup(args.name, data)
 
@@ -92,9 +99,7 @@ def main():
         elif args.command == 'stop':
             snowglobe.stop(args.name)
         return 0
-    except TypeError as te:
-        print(f'Error: {te}.\nUse snowglobe -h for command syntax.')
-        return -1
+
     except RuntimeError as re:
         print(f'Error: {re}.')
         return -1

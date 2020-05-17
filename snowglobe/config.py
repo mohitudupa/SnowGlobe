@@ -138,7 +138,7 @@ class Config:
         if conf not in self.confs:
             raise RuntimeError('Environment not found')
 
-        with open(path.join(self.CONFIG_PATH, f'{conf}.json')) as f:
+        with open(path.join(self.CONFIG_PATH, f'{conf}.json'), 'r') as f:
             return json.load(f)
 
     def set_config(self, conf: str, data: dict) -> None:
