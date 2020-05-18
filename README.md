@@ -93,7 +93,7 @@ $ cat webapp.json
     "execs": [
         {
             "name": "EXEC-NAME",
-            "command": "EXEC_COMMAND",
+            "command": "EXEC-COMMAND",
             "options": "-it"
         }
     ]
@@ -147,10 +147,9 @@ shared volumes in this example.
 }
 ```
 ```
-$ snowglobe setup webapp -f webapp.json
+$ snowglobe setup webapp.json
 Setting up environment: webapp
 Creating container: webapp
-6f36c69ef2499aed0c24b3d5dbbbce05443b7e5e8eef508fa01c5764a24e9f15
 ```
 ## Inspect an environment
 > This command will print the configuration of an environment in json format
@@ -244,7 +243,6 @@ Example:
 ```
 $ snowglobe stop webapp
 Stopping container: webapp
-webapp
 ```
 ---
 ## Reset an environment
@@ -260,11 +258,8 @@ Example:
 $ snowglobe reset webapp
 Resetting environment: webapp
 Stopping container: webapp
-webapp
 Deleting container: webapp
-webapp
 Creating container: webapp
-c848f87b99c4e301d1debe05d166fa06d7b097d10524b7a74a689385c3f89adf
 ```
 ---
 ## Remove an environment
@@ -278,9 +273,7 @@ $ snowglobe remove <environment_name>
 Example:
 ```
 $ snowglobe remove webapp
-Deleting up environment: webapp
+Deleting environment: webapp
 Stopping container: webapp
-webapp
 Deleting container: webapp
-webapp
 ```
