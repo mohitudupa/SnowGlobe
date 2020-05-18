@@ -9,7 +9,7 @@ Prerequisite
 
 Installation
 ```
-$ pip install snowglobe
+$ pip install snowglobe==0.0.7
 ```
 
 ## Usage
