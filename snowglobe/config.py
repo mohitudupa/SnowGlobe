@@ -102,7 +102,7 @@ TEMPLATE = {
     'execs': [
         {
             'name': 'EXEC-NAME',
-            'command': 'EXEC_COMMAND',
+            'command': 'EXEC-COMMAND',
             'options': '-it',
         }
     ]

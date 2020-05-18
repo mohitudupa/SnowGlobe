@@ -6,9 +6,6 @@ class Runtime:
     """
     Runtime class. Handles docker commands.
     """
-    def __init__(self):
-        pass
-
     @staticmethod
     def inspect(name: str) -> dict:
         """
@@ -18,7 +15,10 @@ class Runtime:
         """
         cmd = ['docker', 'container', 'inspect', name]
         response = subprocess.run(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        containers = json.loads(response.stdout.decode())
+        try:
+            containers = json.loads(response.stdout.decode())
+        except json.JSONDecodeError as jde:
+            raise RuntimeError(f'Invalid json format: {jde}')
         if not containers:
             raise RuntimeError(f'Container: {name} not found')
 
@@ -57,7 +57,7 @@ class Runtime:
             cmd.extend(create['options'].split())
 
         cmd.extend(['--name', name, image] + create['command'])
-        subprocess.run(cmd)
+        subprocess.run(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
 
     @staticmethod
     def start(name: str, start: str) -> None:
@@ -82,7 +82,7 @@ class Runtime:
         execs = {ele['name']: ele for ele in execs}
 
         if exec_name not in execs:
-            raise ValueError(f'Exec name: {exec_name} not found')
+            raise RuntimeError(f'Exec name: {exec_name} not found')
 
         cmd = ['docker', 'container', 'exec'] + \
             execs[exec_name]['options'].split() + [name] + execs[exec_name]['command'].split()
@@ -96,7 +96,7 @@ class Runtime:
         :return: None.
         """
         cmd = ['docker', 'container', 'stop', name]
-        subprocess.run(cmd)
+        subprocess.run(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
 
     @staticmethod
     def remove(name: str) -> None:
@@ -106,4 +106,4 @@ class Runtime:
         :return: None.
         """
         cmd = ['docker', 'container', 'rm', name]
-        subprocess.run(cmd)
+        subprocess.run(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE)

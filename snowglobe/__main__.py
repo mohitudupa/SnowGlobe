@@ -25,8 +25,7 @@ def parse_args(args: list) -> argparse.Namespace:
 
     setup_parser = subparsers.add_parser('setup', help='Setup a new environment.')
     setup_parser.set_defaults(command='setup')
-    setup_parser.add_argument('name', help='Name of the environment.', type=str)
-    setup_parser.add_argument('--file', '-f', help='Path to the config file.', required=True, type=str)
+    setup_parser.add_argument('file', help='Path to the config file.', type=str)
 
     remove_parser = subparsers.add_parser('remove', help='Remove an existing environment.')
     remove_parser.set_defaults(command='remove')
@@ -82,7 +81,7 @@ def main():
             except json.JSONDecodeError as jde:
                 raise RuntimeError(f'Invalid json format: {jde}')
 
-            snowglobe.setup(args.name, data)
+            snowglobe.setup(data['name'], data)
 
         elif args.command == 'remove':
             snowglobe.remove(args.name)

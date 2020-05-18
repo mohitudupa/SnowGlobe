@@ -18,7 +18,7 @@ class Environment:
         Prints the list of existing environments.
         :return: None.
         """
-        print('Environments: ')
+        print('Environments:')
         print('\n'.join(self.config.confs))
 
     def template(self) -> None:
@@ -53,7 +53,7 @@ class Environment:
         :param name: Name of the environment.
         :return: None.
         """
-        print(f'Deleting up environment: {name}')
+        print(f'Removing up environment: {name}')
         self.stop(name)
         self.delete(name)
         self.config.del_config(name)
@@ -82,7 +82,7 @@ class Environment:
             print(f'Creating container: {env["name"]}')
             self.runtime.create(env['name'], env['image'], env['create'])
         else:
-            raise RuntimeError(f'Container: {env["name"]} already exists. Delete the container before recreating it.')
+            raise RuntimeError(f'Container: {env["name"]} already exists. Reset if needed.')
 
     def start(self, name: str) -> None:
         """
