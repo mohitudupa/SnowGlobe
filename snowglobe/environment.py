@@ -53,7 +53,7 @@ class Environment:
         :param name: Name of the environment.
         :return: None.
         """
-        print(f'Removing up environment: {name}')
+        print(f'Removing environment: {name}')
         self.stop(name)
         self.delete(name)
         self.config.del_config(name)

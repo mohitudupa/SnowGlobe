@@ -93,7 +93,7 @@ class TestEnvironment(unittest.TestCase):
 
         env.remove('NAME')
 
-        mocked_print.assert_called_with('Removing up environment: NAME')
+        mocked_print.assert_called_with('Removing environment: NAME')
         mocked_config_object.del_config.assert_called_with('NAME')
         env.stop.assert_called_with('NAME')
         env.delete.assert_called_with('NAME')
