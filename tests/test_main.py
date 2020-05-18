@@ -36,10 +36,9 @@ class TestArgParser(unittest.TestCase):
         self.assertEqual(res.name, 'NAME')
 
     def test_parse_args_setup(self):
-        res = __main__.parse_args(['setup', 'NAME', '-f', 'FILE'])
+        res = __main__.parse_args(['setup', 'FILE'])
 
         self.assertEqual(res.command, 'setup')
-        self.assertEqual(res.name, 'NAME')
         self.assertEqual(res.file, 'FILE')
 
     def test_parse_args_remove(self):
@@ -119,7 +118,7 @@ class TestMain(unittest.TestCase):
         mocked_environment_object.inspect.assert_called_with('NAME')
         self.assertEqual(res, 0)
 
-    @patch('snowglobe.__main__.sys.argv', ['PROGRAM', 'setup', 'NAME', '-f', 'FILE'])
+    @patch('snowglobe.__main__.sys.argv', ['PROGRAM', 'setup', 'FILE'])
     @patch('snowglobe.__main__.environment.Environment')
     @patch('snowglobe.__main__.open')
     @patch('snowglobe.__main__.print')
@@ -134,7 +133,7 @@ class TestMain(unittest.TestCase):
         mocked_open.assert_called_with('FILE', 'r')
         self.assertEqual(res, -1)
 
-    @patch('snowglobe.__main__.sys.argv', ['PROGRAM', 'setup', 'NAME', '-f', 'FILE'])
+    @patch('snowglobe.__main__.sys.argv', ['PROGRAM', 'setup', 'FILE'])
     @patch('snowglobe.__main__.environment.Environment')
     @patch('snowglobe.__main__.open')
     @patch('snowglobe.__main__.json.loads')
@@ -146,7 +145,7 @@ class TestMain(unittest.TestCase):
         mocked_file_handler.__enter__ = Mock()
         mocked_file_handler.__exit__ = Mock()
         mocked_file_handler.__enter__.return_value = mocked_file_handler
-        mocked_file_handler.read.return_value = 'JSON-CONFIG'
+        mocked_file_handler.read.return_value = '{"name": "NAME"}'
         mocked_open.return_value = mocked_file_handler
         mocked_json_loads.side_effect = json.JSONDecodeError('', '', 0)
         mocked_print.return_value = None
@@ -156,7 +155,7 @@ class TestMain(unittest.TestCase):
         mocked_open.assert_called_with('FILE', 'r')
         self.assertEqual(res, -1)
 
-    @patch('snowglobe.__main__.sys.argv', ['PROGRAM', 'setup', 'NAME', '-f', 'FILE'])
+    @patch('snowglobe.__main__.sys.argv', ['PROGRAM', 'setup', 'FILE'])
     @patch('snowglobe.__main__.environment.Environment')
     @patch('snowglobe.__main__.open')
     @patch('snowglobe.__main__.json.loads')
@@ -168,15 +167,15 @@ class TestMain(unittest.TestCase):
         mocked_file_handler.__enter__ = Mock()
         mocked_file_handler.__exit__ = Mock()
         mocked_file_handler.__enter__.return_value = mocked_file_handler
-        mocked_file_handler.read.return_value = '{"KEY": "VALUE"}'
+        mocked_file_handler.read.return_value = '{"name": "NAME"}'
         mocked_open.return_value = mocked_file_handler
-        mocked_json_loads.return_value = {'KEY': 'VALUE'}
+        mocked_json_loads.return_value = {'name': 'NAME'}
         mocked_print.return_value = None
 
         res = __main__.main()
 
         mocked_open.assert_called_with('FILE', 'r')
-        mocked_environment_object.setup.assert_called_with('NAME', {'KEY': 'VALUE'})
+        mocked_environment_object.setup.assert_called_with('NAME', {'name': 'NAME'})
         self.assertEqual(res, 0)
 
     @patch('snowglobe.__main__.sys.argv', ['PROGRAM', 'remove', 'NAME'])
