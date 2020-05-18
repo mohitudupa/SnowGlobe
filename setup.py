@@ -7,7 +7,7 @@ with open('README.md', 'r', encoding='utf-8') as f:
 
 setuptools.setup(
     name="snowglobe",
-    version="0.0.6",
+    version="0.0.7",
     author="Mohit Udupa",
     author_email="mohitudupa@gmail.com",
     description="A python package to manage docker development environments.",
