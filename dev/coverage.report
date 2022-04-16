@@ -1,9 +1,0 @@
-Name                       Stmts   Miss  Cover   Missing
---------------------------------------------------------
-snowglobe/__init__.py          0      0   100%
-snowglobe/__main__.py         72      0   100%
-snowglobe/config.py           30      0   100%
-snowglobe/environment.py      59      0   100%
-snowglobe/runtime.py          53      0   100%
---------------------------------------------------------
-TOTAL                        214      0   100%

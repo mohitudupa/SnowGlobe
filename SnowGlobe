@@ -1,0 +1,36 @@
+NAME := NAME
+IMAGE := IMAGE:TAG
+WORKDIR := WORKDIR
+HOSTNAME := $(NAME)
+NETWORK := NETWORK
+ENTRYPOINT := ENTRYPOINT
+COMMAND := COMMAND
+SH := SH
+
+ENVS := -e KEY=VALUE
+PORTS := -p HOSTPORT:CONTAINERPORT
+VOLUMES := -v HOSTPATH:CONTAINERPATH
+
+
+create:
+        @echo "Creating: $(NAME)"
+        @docker container create --entrypoint $(ENTRYPOINT) $(ENV) $(PORTS) $(VOLUMES) --hostname $(HOSTNAME) \
+        --network $(NETWORK) --workdir $(WORKDIR) -it --name $(NAME) $(IMAGE) $(COMMAND)
+start:
+        @echo "Starting: $(NAME)"
+        @docker container start $(NAME)
+shell:
+        @echo "Shell: $(NAME)"
+        @docker container start $(NAME)
+        @docker container exec -it --workdir $(WORKDIR) $(NAME) $(SH)
+stop:
+        @echo "Stopping: $(NAME)"
+        @docker container stop $(NAME)
+reset:
+        @$(MAKE) delete
+        @$(MAKE) create
+delete:
+        @$(MAKE) stop
+        @echo "Deleting: $(NAME)"
+        @docker container rm $(NAME)
+
